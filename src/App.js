@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Expenses from "./components/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
@@ -24,10 +25,21 @@ function App() {
     },
   ];
 
+  const [data, setdata] = useState(null);
+  const addExpenseHandler = (expense) => {
+    console.log("In App.js");
+    let localDATA = JSON.parse(localStorage.getItem("allExpenses"));
+    localDATA.push(expense);
+    setdata(localDATA);
+    console.log("LocalData ", localDATA);
+  };
+  console.log("DATA:", data);
+  localStorage.setItem("allExpenses", JSON.stringify(data));
+
   return (
     <div>
-      <NewExpense />
-      <Expenses items={expenses} />
+      <NewExpense onAddExpense={addExpenseHandler} />
+      <Expenses items={data} />
     </div>
   );
 }
