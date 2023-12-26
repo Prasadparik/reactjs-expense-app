@@ -3,7 +3,7 @@ import Expenses from "./components/Expenses";
 import NewExpense from "./components/NewExpense/NewExpense";
 
 function App() {
-  const expenses = [
+  const DUMMY_EXPENSES = [
     {
       id: "e1",
       title: "Toilet Paper",
@@ -25,16 +25,15 @@ function App() {
     },
   ];
 
-  const [data, setdata] = useState(null);
+  const [expenses, setExpenses] = useState(DUMMY_EXPENSES);
   const addExpenseHandler = (expense) => {
-    console.log("In App.js");
-    let localDATA = JSON.parse(localStorage.getItem("allExpenses"));
-    localDATA.push(expense);
-    setdata(localDATA);
-    console.log("LocalData ", localDATA);
+    console.log(expense);
+
+    setExpenses((prevExpenses) => {
+      return [expense, ...prevExpenses];
+    });
   };
-  console.log("DATA:", data);
-  localStorage.setItem("allExpenses", JSON.stringify(data));
+  console.log(expenses);
 
   return (
     <div>
