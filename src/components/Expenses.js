@@ -3,6 +3,7 @@ import ExpenseItem from "./ExpenseItem";
 import Card from "./Card";
 import "./Expenses.css";
 import ExpensesFilter from "./ExpensesFilter";
+import ExpensesChart from "./ExpensesChart";
 
 function Expenses(props) {
   const [filteredYear, setFilteredYear] = useState("2021");
@@ -11,14 +12,14 @@ function Expenses(props) {
     setFilteredYear(selectedYear);
   };
   const getYearFromDate = (date) => date.getFullYear();
-  let filterData = props.items.filter(
+  let filteredExpenses = props.items.filter(
     (elem) => getYearFromDate(elem.date) == filteredYear
   );
 
   let expensesContent = <p style={{ color: "#fff" }}>No expenses found</p>;
 
-  if (filterData.length > 0) {
-    expensesContent = filterData.map((elem) => {
+  if (filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map((elem) => {
       return (
         <ExpenseItem
           key={elem.id}
@@ -29,15 +30,16 @@ function Expenses(props) {
       );
     });
   }
-  console.log("TEST :: ", filterData);
+  console.log("TEST :: ", filteredExpenses);
   return (
     <Card className="expenses">
+      <ExpensesChart expenses={filteredExpenses} />
       <ExpensesFilter
         selected={filteredYear}
         onChangeFilter={filterChangeHandler}
       />
       {expensesContent}
-      {filterData.length === 1 ? (
+      {filteredExpenses.length === 1 ? (
         <p style={{ color: "#fff" }}>
           Only single Expense here. Please add more...
         </p>
